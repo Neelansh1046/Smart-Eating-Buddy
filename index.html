@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SMART EATING BUDDY</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <!-- App styles -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- TensorFlow.js (matching tm version) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.7.4/dist/tf.min.js"></script>
+  <!-- Teachable Machine Image lib -->
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <div class="logo">SE</div>
+      <div>
+        <h1>SMART EATING BUDDY</h1>
+        <p class="tag">Scan food • See nutrition • Get workout suggestions</p>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="btnStart" class="btn primary">📷 Start Webcam</button>
+      <button id="btnStop" class="btn ghost" disabled>✖ Stop</button>
+      <input id="fileInput" type="file" accept="image/*" hidden>
+      <button id="btnUpload" class="btn">📁 Upload Image</button>
+      <button id="btnClear" class="btn ghost">🧹 Clear</button>
+    </div>
+  </header>
+
+  <main class="main-grid">
+    <section class="card">
+      <h2>Live / Preview</h2>
+      <div id="viewport" class="viewport">
+        <div id="placeholder" class="placeholder">Start webcam or upload an image</div>
+        <img id="uploadPreview" alt="preview" class="hidden" />
+      </div>
+      <div id="status" class="status">Idle</div>
+    </section>
+
+    <section class="card">
+      <h2>Predictions</h2>
+      <div id="predictions" class="predictions"></div>
+
+      <h3>Nutrition</h3>
+      <div class="nutrition" id="nutrition">
+        <div class="nut"><small>Calories</small><b id="nCal">—</b></div>
+        <div class="nut"><small>Carbs</small><b id="nCarbs">—</b></div>
+        <div class="nut"><small>Protein</small><b id="nProt">—</b></div>
+        <div class="nut"><small>Fat</small><b id="nFat">—</b></div>
+      </div>
+
+      <h3 style="margin-top:12px">Suggested Burn</h3>
+      <div class="burn"><div class="nut"><small>Workout</small><b id="wPlan">—</b></div></div>
+    </section>
+  </main>
+
+  <!-- App JS (loaded after tmImage is available) -->
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{
+  "tfjsVersion": "1.7.4",
+  "tmVersion": "2.4.10",
+  "packageVersion": "0.8.4-alpha2",
+  "packageName": "@teachablemachine/image",
+  "userMetadata": {
+    "nutrition": {
+      "PIZZA": {
+        "calories": 285,
+        "carbs": 36,
+        "protein": 12,
+        "fat": 10
+      },
+      "BURGER": {
+        "calories": 295,
+        "carbs": 28,
+        "protein": 17,
+        "fat": 14
+      },
+      "NOODLES": {
+        "calories": 138,
+        "carbs": 25,
+        "protein": 5,
+        "fat": 2
+      },
+      "SAMOSA": {
+        "calories": 132,
+        "carbs": 15,
+        "protein": 3,
+        "fat": 8
+      },
+      "APPLE": {
+        "calories": 52,
+        "carbs": 14,
+        "protein": 0.3,
+        "fat": 0.2
+      }
+    }
+  },
+  "modelName": "tm-my-image-model",
+  "labels": [
+    "PIZZA",
+    "BURGER",
+    "NOODLES",
+    "SAMOSA",
+    "APPLE"
+  ],
+  "imageSize": 224
+}
