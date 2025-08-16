@@ -148,10 +148,16 @@ btnStart.addEventListener('click', async () => {
     if (placeholder && placeholder.parentNode !== viewport) viewport.appendChild(placeholder);
     try { placeholder.remove(); } catch {}
 
-    // start webcam (mirror)
-    webcam = new tmImage.Webcam(300, 300, true);
-    setStatus('Requesting camera (allow in browser)…');
-    await webcam.setup();
+    // start webcam — try back camera on mobile, otherwise default
+webcam = new tmImage.Webcam(300, 300, true);
+setStatus('Requesting camera (allow in browser)…');
+
+const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+if (isMobile) {
+  await webcam.setup({ facingMode: "environment" }); // back camera
+} else {
+  await webcam.setup(); // default (usually front) camera
+}
     await webcam.play();
 
     viewport.innerHTML = '';
