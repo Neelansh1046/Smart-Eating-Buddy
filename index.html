@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4CAF50">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   body {
@@ -39,6 +41,12 @@
   <!-- Teachable Machine Image lib -->
   <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
 </head>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js')
+    .then(() => console.log("Service Worker Registered"));
+}
+</script>
 <body>
   <header class="header">
     <div class="brand">
