@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Us • Smart Eating Buddy</title>
+
+  <!-- Reuse your site styles & PWA bits -->
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" href="logo.png" />
+
+  <style>
+    /* --- Scoped styles for About page only --- */
+    .about-wrap { max-width: 1000px; margin: 0 auto; padding: 24px; }
+    .about-hero {
+      text-align: center; padding: 40px 16px; border-radius: 16px;
+      background: rgba(255,255,255,0.15); box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      margin: 20px 0 28px;
+    }
+    .dev-grid {
+      display: grid; gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+    .dev-card {
+      background: rgba(255,255,255,0.15); border-radius: 16px; padding: 20px; text-align: center;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .dev-card:hover { transform: translateY(-4px); box-shadow: 0 14px 28px rgba(0,0,0,0.12); }
+    .dev-avatar {
+      width: 64px; height: 64px; margin: 0 auto 10px; border-radius: 50%;
+      display: grid; place-items: center; font-weight: 800; color: #fff;
+      background: radial-gradient(120% 120% at 20% 20%, #ffb86b 0%, #ff6a88 60%, #8a60ff 100%);
+    }
+    .site-header, .navbar { display:flex; align-items:center; gap:12px; justify-content:space-between; padding:16px 20px; }
+    .navbar a { text-decoration:none; font-weight:600; opacity:.85; margin-left: 12px; }
+    .navbar a.active, .navbar a:hover { opacity:1; text-decoration:underline; }
+    .brand { display:flex; align-items:center; gap:10px; }
+    .brand img { width:40px; height:40px; border-radius:10px; object-fit:cover; }
+    .site-footer { text-align:center; padding: 24px 12px; opacity:.8; }
+  </style>
+</head>
+<body>
+  <!-- Header (simple, matches your style) -->
+  <header class="site-header">
+    <div class="brand">
+      <img src="logo.png" alt="Smart Eating Buddy Logo" />
+      <h1>Smart Eating Buddy</h1>
+    </div>
+    <nav class="navbar">
+      <a href="index.html">Home</a>
+      <a href="about.html" class="active">About Us</a>
+    </nav>
+  </header>
+
+  <main class="about-wrap">
+    <section class="about-hero">
+      <h2>About Us</h2>
+      <p>We built Smart Eating Buddy to make food recognition, nutrition insights, and healthy habits fast and fun.</p>
+    </section>
+
+    <section>
+      <h3 style="text-align:center; margin-bottom:12px;">Meet the Developers</h3>
+      <div class="dev-grid">
+        <article class="dev-card">
+          <div class="dev-avatar">NG</div>
+          <h4>Neelansh Goswami</h4>
+          <p>Leader & Coder</p>
+        </article>
+
+        <article class="dev-card">
+          <div class="dev-avatar">AS</div>
+          <h4>Aditya Sharma</h4>
+          <p>Data Researcher</p>
+        </article>
+
+        <article class="dev-card">
+          <div class="dev-avatar">AA</div>
+          <h4>Archit Aggarwal</h4>
+          <p>Data Evaluator</p>
+        </article>
+
+        <article class="dev-card">
+          <div class="dev-avatar">AR</div>
+          <h4>Arjun Baliyan</h4>
+          <p>Graphic Designer</p>
+        </article>
+
+        <article class="dev-card">
+          <div class="dev-avatar">DM</div>
+          <h4>Dhairya Mittal</h4>
+          <p>Evaluator</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 Smart Eating Buddy • Built for healthier choices</p>
+  </footer>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js').catch(()=>{});
+    }
+  </script>
+</body>
+</html>
