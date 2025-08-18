@@ -28,10 +28,15 @@
       transition: transform .2s ease, box-shadow .2s ease;
     }
     .dev-card:hover { transform: translateY(-4px); box-shadow: 0 14px 28px rgba(0,0,0,0.12); }
-    .dev-avatar {
+    .dev-avatar, .dev-avatar-img {
       width: 64px; height: 64px; margin: 0 auto 10px; border-radius: 50%;
       display: grid; place-items: center; font-weight: 800; color: #fff;
+    }
+    .dev-avatar {
       background: radial-gradient(120% 120% at 20% 20%, #ffb86b 0%, #ff6a88 60%, #8a60ff 100%);
+    }
+    .dev-avatar-img {
+      object-fit: cover;
     }
     .site-header, .navbar { display:flex; align-items:center; gap:12px; justify-content:space-between; padding:16px 20px; }
     .navbar a { text-decoration:none; font-weight:600; opacity:.85; margin-left: 12px; }
@@ -63,12 +68,15 @@
     <section>
       <h3 style="text-align:center; margin-bottom:12px;">Meet the Developers</h3>
       <div class="dev-grid">
+        
+        <!-- Neelansh with real image -->
         <article class="dev-card">
-          <div class="dev-avatar">NG</div>
+          <img src="neelansh.png" alt="Neelansh Goswami" class="dev-avatar-img" />
           <h4>Neelansh Goswami</h4>
           <p>Leader & Coder</p>
         </article>
 
+        <!-- Others use initials until you get their images -->
         <article class="dev-card">
           <div class="dev-avatar">AS</div>
           <h4>Aditya Sharma</h4>
@@ -92,6 +100,7 @@
           <h4>Dhairya Mittal</h4>
           <p>Evaluator</p>
         </article>
+
       </div>
     </section>
   </main>
