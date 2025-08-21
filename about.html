@@ -3,65 +3,121 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>About Us • Smart Eating Buddy</title>
-
-  <!-- Reuse your site styles & PWA bits -->
-  <link rel="stylesheet" href="style.css" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="icon" type="image/png" href="logo.png" />
+  <title>About Us - Smart Eating Buddy</title>
 
   <style>
-    /* --- Scoped styles for About page only --- */
-    .about-wrap { max-width: 1000px; margin: 0 auto; padding: 24px; }
-    .about-hero {
-      text-align: center; padding: 40px 16px; border-radius: 16px;
-      background: rgba(255,255,255,0.15); box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-      margin: 20px 0 28px;
+    :root{
+      --bg1:#041021;
+      --bg2:#072033;
+      --accent1:#34d399;
+      --accent2:#22d3ee;
+      --muted:#98a2b3;
+      --card: rgba(255,255,255,0.04);
+      --glass: blur(8px);
+      --text:#e6eef8;
+      --shadow: 0 12px 30px rgba(0,0,0,.35);
     }
-    .dev-grid {
-      display: grid; gap: 16px;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Poppins',system-ui,Arial; color:var(--text);
+      background:
+        radial-gradient(60% 60% at 20% 10%, rgba(52,211,153,.08), transparent 60%),
+        radial-gradient(60% 60% at 90% 10%, rgba(34,211,238,.05), transparent 60%),
+        linear-gradient(180deg,var(--bg1),var(--bg2));
+      min-height:100vh; display:flex; flex-direction:column; gap:18px; padding:22px;
     }
-    .dev-card {
-      background: rgba(255,255,255,0.15); border-radius: 16px; padding: 20px; text-align: center;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
-      transition: transform .2s ease, box-shadow .2s ease;
+
+    /* Header */
+    .site-header{
+      max-width:1100px;margin:0 auto;width:100%;
+      display:flex;align-items:center;justify-content:space-between;gap:16px;
     }
-    .dev-card:hover { transform: translateY(-4px); box-shadow: 0 14px 28px rgba(0,0,0,0.12); }
-    .dev-avatar, .dev-avatar-img {
-      width: 64px; height: 64px; margin: 0 auto 10px; border-radius: 50%;
-      display: grid; place-items: center; font-weight: 800; color: #fff;
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand .logo{
+      width:56px;height:56px;border-radius:12px;object-fit:cover;
+      background:linear-gradient(135deg,var(--accent1),var(--accent2));
+      box-shadow:0 10px 30px rgba(34,211,238,.12);
     }
-    .dev-avatar {
-      background: radial-gradient(120% 120% at 20% 20%, #ffb86b 0%, #ff6a88 60%, #8a60ff 100%);
+    .brand h1{font-size:1.2rem}
+    .tag{color:var(--muted);font-size:.9rem}
+
+    /* Nav */
+    nav{
+      max-width:1100px;margin:0 auto;width:100%;
+      background:var(--card);backdrop-filter:var(--glass);
+      border:1px solid rgba(255,255,255,0.06);border-radius:12px;box-shadow:var(--shadow);
     }
-    .dev-avatar-img {
-      object-fit: cover;
+    nav ul{list-style:none;margin:0;padding:8px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+    nav a{
+      text-decoration:none;color:var(--text);font-weight:600;
+      padding:10px 14px;border-radius:999px;display:inline-block;
+      background:rgba(255,255,255,0.06);
+      transition:transform .12s ease,background .2s ease;
     }
-    .site-header, .navbar { display:flex; align-items:center; gap:12px; justify-content:space-between; padding:16px 20px; }
-    .navbar a { text-decoration:none; font-weight:600; opacity:.85; margin-left: 12px; }
-    .navbar a.active, .navbar a:hover { opacity:1; text-decoration:underline; }
-    .brand { display:flex; align-items:center; gap:10px; }
-    .brand img { width:40px; height:40px; border-radius:10px; object-fit:cover; }
-    .site-footer { text-align:center; padding: 24px 12px; opacity:.8; }
+    nav a:hover{transform:translateY(-3px)}
+    nav a.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#052029}
+
+    /* Main About Section */
+    .about-wrap{
+      max-width:1100px;margin:0 auto;width:100%;
+      background:var(--card);border:1px solid rgba(255,255,255,0.06);
+      border-radius:16px;backdrop-filter:var(--glass);box-shadow:var(--shadow);
+      padding:24px;text-align:center;
+    }
+    .about-hero h2{font-size:2rem;margin-bottom:8px}
+    .about-hero p{color:var(--muted);max-width:800px;margin:0 auto 20px;font-size:1.05rem}
+
+    /* Developer Grid */
+    .dev-grid{
+      display:grid;gap:18px;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      margin-top:20px;
+    }
+    .dev-card{
+      position:relative;overflow:hidden;padding:20px;border-radius:14px;text-align:center;
+      background:var(--card);border:1px solid rgba(255,255,255,0.06);
+      backdrop-filter:var(--glass);box-shadow:0 10px 30px rgba(0,0,0,.4);
+      transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
+    }
+    .dev-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.6);border-color:var(--accent2)}
+    .dev-card img{
+      width:80px;height:80px;border-radius:50%;object-fit:cover;margin-bottom:10px;
+      border:2px solid var(--accent2);
+    }
+    .dev-avatar{
+      width:80px;height:80px;margin:0 auto 10px;border-radius:50%;
+      display:grid;place-items:center;font-weight:700;font-size:1.3rem;color:#fff;
+      background:linear-gradient(135deg,var(--accent1),var(--accent2));
+    }
+    .dev-card h4{margin-bottom:4px;font-size:1.1rem}
+    .dev-card p{color:var(--muted);margin:0}
+
+    footer{text-align:center;color:var(--muted);margin-top:auto}
   </style>
 </head>
 <body>
-  <!-- Header (simple, matches your style) -->
+
+  <!-- Header -->
   <header class="site-header">
     <div class="brand">
-      <img src="logo.png" alt="Smart Eating Buddy Logo" />
-      <h1>Smart Eating Buddy</h1>
+      <img src="logo.png" alt="Smart Eating Buddy Logo" class="logo">
+      <div>
+        <h1>Smart Eating Buddy</h1>
+        <div class="tag">AI food recognition • Nutrition • Simple workouts</div>
+      </div>
     </div>
-    <nav>
-  <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="about.html" class="active">About Us</a></li>
-    <li><a href="howitworks.html">How It Works</a></li>
-  </ul>
-</nav>
   </header>
 
+  <!-- Navigation -->
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active">About Us</a></li>
+      <li><a href="howitworks.html">How It Works</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
   <main class="about-wrap">
     <section class="about-hero">
       <h2>About Us</h2>
@@ -71,15 +127,15 @@
     <section>
       <h3 style="text-align:center; margin-bottom:12px;">Meet the Developers</h3>
       <div class="dev-grid">
-        
+
         <!-- Neelansh with real image -->
         <article class="dev-card">
-          <img src="neelansh.png" alt="Neelansh Goswami" class="dev-avatar-img" />
+          <img src="neelansh.png" alt="Neelansh Goswami" />
           <h4>Neelansh Goswami</h4>
           <p>Leader & Coder</p>
         </article>
 
-        <!-- Others use initials until you get their images -->
+        <!-- Others use initials -->
         <article class="dev-card">
           <div class="dev-avatar">AS</div>
           <h4>Aditya Sharma</h4>
@@ -108,14 +164,10 @@
     </section>
   </main>
 
-  <footer class="site-footer">
+  <!-- Footer -->
+  <footer>
     <p>© 2025 Smart Eating Buddy • Built for healthier choices</p>
   </footer>
 
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js').catch(()=>{});
-    }
-  </script>
 </body>
 </html>
