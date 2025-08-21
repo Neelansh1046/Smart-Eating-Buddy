@@ -14,7 +14,7 @@
   <link rel="icon" type="image/png" href="logo.png" />
   
   <!-- Theme color -->
-  <meta name="theme-color" content="#4CAF50">
+  <meta name="theme-color" content="#ff6f61">
 
   <!-- TensorFlow.js -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.7.4/dist/tf.min.js"></script>
@@ -22,165 +22,157 @@
   <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
 
   <style>
-    /* Reset & Fonts */
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
-      background: #f8f9fa;
+      background: #fdfdfd;
       color: #333;
     }
 
-    /* Header / Navigation */
+    /* Header */
     .site-header {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:16px 20px;
-      background:#ff6f61; /* Unified theme color */
-      color:#fff;
-      box-shadow:0 4px 12px rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: #ff6f61;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     }
     .brand {
-      display:flex;
-      align-items:center;
-      gap:10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
     .brand img {
-      width:40px;
-      height:40px;
-      border-radius:10px;
-      object-fit:cover;
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
     }
     .brand h1 {
-      font-size:1.4rem;
-      margin:0;
+      font-size: 1.4rem;
+      margin: 0;
     }
     .tag {
-      font-size:0.85rem;
-      opacity:.9;
-      margin:4px 0 0;
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin: 4px 0 0;
     }
     nav ul {
-      list-style:none;
-      display:flex;
-      gap:16px;
-      margin:0;
-      padding:0;
+      list-style: none;
+      display: flex;
+      gap: 16px;
+      margin: 0;
+      padding: 0;
     }
     nav a {
-      text-decoration:none;
-      font-weight:600;
-      color:#fff;
-      opacity:.85;
-      transition:opacity .2s ease;
+      text-decoration: none;
+      font-weight: 600;
+      color: #fff;
+      opacity: 0.85;
     }
-    nav a.active,
-    nav a:hover {
-      opacity:1;
-      text-decoration:underline;
+    nav a:hover, nav a.active {
+      opacity: 1;
+      text-decoration: underline;
     }
 
-    /* Main Controls */
+    /* Controls Section */
     .controls {
-      text-align:center;
-      padding:24px;
-      background:#fff;
-      box-shadow:0 4px 12px rgba(0,0,0,0.05);
-      margin:20px auto;
-      border-radius:12px;
-      max-width:800px;
+      text-align: center;
+      padding: 24px;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      margin: 20px auto;
+      border-radius: 12px;
+      max-width: 800px;
     }
     .controls button {
-      margin:8px;
-      padding:10px 20px;
-      font-size:1rem;
-      border:none;
-      border-radius:8px;
-      cursor:pointer;
-      font-weight:600;
+      margin: 8px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
     }
     .btn.primary {
-      background:#28a745;
-      color:#fff;
+      background: #28a745;
+      color: #fff;
     }
     .btn.primary:hover {
-      background:#218838;
+      background: #218838;
     }
     .btn.ghost {
-      background:#f1f1f1;
-      color:#333;
+      background: #f1f1f1;
+      color: #333;
     }
     .btn.ghost:hover {
-      background:#e2e2e2;
+      background: #e2e2e2;
     }
 
-    /* Main Grid Layout */
+    /* Main Content */
     .main-grid {
-      display:grid;
-      gap:24px;
-      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-      max-width:1100px;
-      margin:0 auto;
-      padding:24px;
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
     }
     .card {
-      background:#fff;
-      border-radius:16px;
-      box-shadow:0 6px 18px rgba(0,0,0,0.06);
-      padding:20px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      padding: 20px;
     }
     .viewport {
-      background:#fafafa;
-      border:2px dashed #ddd;
-      border-radius:12px;
-      height:240px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
+      background: #fafafa;
+      border: 2px dashed #ddd;
+      border-radius: 12px;
+      height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
     .placeholder {
-      color:#888;
-      text-align:center;
-      font-size:1rem;
+      color: #888;
+      text-align: center;
     }
     #uploadPreview {
-      max-height:100%;
+      max-height: 100%;
     }
     .status {
-      margin-top:12px;
-      font-weight:500;
-      text-align:center;
-      color:#666;
+      margin-top: 12px;
+      font-weight: 500;
+      text-align: center;
+      color: #666;
     }
 
     /* Predictions & Nutrition */
     .predictions {
-      font-size:0.95rem;
-      margin-bottom:16px;
+      font-size: 0.95rem;
+      margin-bottom: 16px;
     }
-    .nutrition,
-    .burn {
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:8px;
+    .nutrition, .burn {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 8px;
     }
     .nut {
-      background:#f8f8f8;
-      border-radius:8px;
-      padding:8px 12px;
-      text-align:center;
+      background: #f8f8f8;
+      border-radius: 8px;
+      padding: 8px 12px;
+      text-align: center;
     }
 
-    /* Footer */
     footer {
-      text-align:center;
-      padding:24px;
-      font-size:0.9rem;
-      color:#555;
-      background:#fff;
-      box-shadow:0 -4px 12px rgba(0,0,0,0.05);
-      margin-top:32px;
+      text-align: center;
+      padding: 24px;
+      font-size: 0.9rem;
+      color: #555;
+      background: #fff;
+      margin-top: 32px;
     }
   </style>
 </head>
@@ -198,4 +190,61 @@
     <nav>
       <ul>
         <li><a href="index.html" class="active">Home</a></li>
-        <li><a href="about.htm
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="howitworks.html">How It Works</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Controls -->
+  <section class="controls">
+    <button id="btnStart" class="btn primary">📷 Start Webcam</button>
+    <button id="btnStop" class="btn ghost" disabled>✖ Stop</button>
+    <input id="fileInput" type="file" accept="image/*" hidden>
+    <button id="btnUpload" class="btn">📁 Upload Image</button>
+    <button id="btnClear" class="btn ghost">🧹 Clear</button>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-grid">
+    <section class="card">
+      <h2>Live / Preview</h2>
+      <div id="viewport" class="viewport">
+        <div id="placeholder" class="placeholder">Start webcam or upload an image</div>
+        <img id="uploadPreview" alt="preview" class="hidden" />
+      </div>
+      <div id="status" class="status">Idle</div>
+    </section>
+
+    <section class="card">
+      <h2>Predictions</h2>
+      <div id="predictions" class="predictions"></div>
+
+      <h3>Nutrition</h3>
+      <div class="nutrition" id="nutrition">
+        <div class="nut"><small>Calories</small><b id="nCal">—</b></div>
+        <div class="nut"><small>Carbs</small><b id="nCarbs">—</b></div>
+        <div class="nut"><small>Protein</small><b id="nProt">—</b></div>
+        <div class="nut"><small>Fat</small><b id="nFat">—</b></div>
+      </div>
+
+      <h3 style="margin-top:12px">Suggested Burn</h3>
+      <div class="burn"><div class="nut"><small>Workout</small><b id="wPlan">—</b></div></div>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 Smart Eating Buddy • Built for healthier choices
+  </footer>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(()=>console.log('SW registered'))
+        .catch(()=>console.log('SW failed'));
+    }
+  </script>
+</body>
+</html>
