@@ -1,24 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Smart Eating Buddy</title>
-  
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-  
-  <!-- Styles -->
-  <link rel="stylesheet" href="style.css" />
-  <link rel="manifest" href="manifest.json" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Eating Buddy - Home</title>
+  <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="logo.png" />
-  
-  <!-- Theme color -->
   <meta name="theme-color" content="#ff6f61">
 
   <!-- TensorFlow.js -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.7.4/dist/tf.min.js"></script>
-  <!-- Teachable Machine Image -->
   <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
 
   <style>
@@ -30,7 +21,7 @@
     }
 
     /* Header */
-    .site-header {
+    header {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -39,24 +30,10 @@
       color: #fff;
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .brand img {
+    .logo {
       width: 48px;
       height: 48px;
       border-radius: 8px;
-    }
-    .brand h1 {
-      font-size: 1.4rem;
-      margin: 0;
-    }
-    .tag {
-      font-size: 0.85rem;
-      opacity: 0.9;
-      margin: 4px 0 0;
     }
     nav ul {
       list-style: none;
@@ -76,15 +53,18 @@
       text-decoration: underline;
     }
 
-    /* Controls Section */
-    .controls {
+    /* Main Content */
+    .content {
       text-align: center;
       padding: 24px;
-      background: #fff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      margin: 20px auto;
-      border-radius: 12px;
-      max-width: 800px;
+    }
+    h1 {
+      color: #ff6f61;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .controls {
+      margin-top: 20px;
     }
     .controls button {
       margin: 8px;
@@ -110,20 +90,21 @@
       background: #e2e2e2;
     }
 
-    /* Main Content */
+    /* Prediction & Nutrition Sections */
     .main-grid {
       display: grid;
       gap: 24px;
       grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
       max-width: 1100px;
-      margin: 0 auto;
-      padding: 24px;
+      margin: 30px auto;
+      padding: 0 20px;
     }
     .card {
       background: #fff;
       border-radius: 16px;
       box-shadow: 0 6px 18px rgba(0,0,0,0.06);
       padding: 20px;
+      text-align: center;
     }
     .viewport {
       background: #fafafa;
@@ -137,7 +118,7 @@
     }
     .placeholder {
       color: #888;
-      text-align: center;
+      font-size: 1rem;
     }
     #uploadPreview {
       max-height: 100%;
@@ -145,19 +126,14 @@
     .status {
       margin-top: 12px;
       font-weight: 500;
-      text-align: center;
       color: #666;
     }
 
-    /* Predictions & Nutrition */
-    .predictions {
-      font-size: 0.95rem;
-      margin-bottom: 16px;
-    }
     .nutrition, .burn {
       display: grid;
       grid-template-columns: repeat(2,1fr);
       gap: 8px;
+      margin-top: 10px;
     }
     .nut {
       background: #f8f8f8;
@@ -166,27 +142,21 @@
       text-align: center;
     }
 
+    /* Footer */
     footer {
       text-align: center;
-      padding: 24px;
+      padding: 16px;
+      background: #fff;
       font-size: 0.9rem;
       color: #555;
-      background: #fff;
       margin-top: 32px;
     }
   </style>
 </head>
-
 <body>
   <!-- Header -->
-  <header class="site-header">
-    <div class="brand">
-      <img src="logo.png" alt="Smart Eating Buddy Logo" />
-      <div>
-        <h1>Smart Eating Buddy</h1>
-        <p class="tag">Scan food • See nutrition • Get workout tips</p>
-      </div>
-    </div>
+  <header>
+    <img src="logo.png" alt="Smart Eating Buddy Logo" class="logo">
     <nav>
       <ul>
         <li><a href="index.html" class="active">Home</a></li>
@@ -196,16 +166,22 @@
     </nav>
   </header>
 
-  <!-- Controls -->
-  <section class="controls">
-    <button id="btnStart" class="btn primary">📷 Start Webcam</button>
-    <button id="btnStop" class="btn ghost" disabled>✖ Stop</button>
-    <input id="fileInput" type="file" accept="image/*" hidden>
-    <button id="btnUpload" class="btn">📁 Upload Image</button>
-    <button id="btnClear" class="btn ghost">🧹 Clear</button>
+  <!-- Main Content -->
+  <section class="content">
+    <h1>Welcome to Smart Eating Buddy</h1>
+    <p>Scan your food, check calories, and get workout tips instantly!</p>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button id="btnStart" class="btn primary">📷 Start Webcam</button>
+      <button id="btnStop" class="btn ghost" disabled>✖ Stop</button>
+      <input id="fileInput" type="file" accept="image/*" hidden>
+      <button id="btnUpload" class="btn">📁 Upload Image</button>
+      <button id="btnClear" class="btn ghost">🧹 Clear</button>
+    </div>
   </section>
 
-  <!-- Main Content -->
+  <!-- Prediction & Nutrition -->
   <main class="main-grid">
     <section class="card">
       <h2>Live / Preview</h2>
@@ -233,11 +209,11 @@
     </section>
   </main>
 
+  <!-- Footer -->
   <footer>
-    © 2025 Smart Eating Buddy • Built for healthier choices
+    © 2025 Smart Eating Buddy | Built for healthier choices
   </footer>
 
-  <!-- Scripts -->
   <script src="script.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
