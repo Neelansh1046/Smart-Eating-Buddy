@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Eating Buddy</title>
+  <title>Smart Eating Buddy - Home</title>
+  <link rel="stylesheet" href="style.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -12,142 +13,192 @@
       padding: 0;
       text-align: center;
     }
+
     header {
       background: #4CAF50;
       color: white;
-      padding: 15px;
-      font-size: 24px;
+      padding: 10px 0;
     }
-    nav {
-      background: #333;
-    }
+
     nav ul {
-      margin: 0;
-      padding: 0;
       list-style: none;
+      background: #333;
+      padding: 0;
+      margin: 0;
       display: flex;
       justify-content: center;
     }
+
     nav ul li {
       margin: 0 15px;
     }
+
     nav ul li a {
       color: white;
       text-decoration: none;
-      font-size: 18px;
+      font-weight: bold;
+      padding: 10px 15px;
+      display: block;
     }
-    nav ul li a:hover {
-      text-decoration: underline;
+
+    nav ul li a:hover, nav ul li a.active {
+      background: #4CAF50;
+      border-radius: 4px;
     }
+
     .container {
-      margin-top: 20px;
-    }
-    video, img {
-      width: 320px;
-      height: 240px;
-      border: 2px solid #4CAF50;
+      margin: 30px auto;
+      max-width: 600px;
+      padding: 20px;
+      background: #fff;
       border-radius: 10px;
-      margin-top: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
-    .buttons {
-      margin-top: 20px;
+
+    video, img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 15px;
     }
-    .buttons button {
+
+    button {
+      padding: 10px 15px;
+      margin: 10px;
+      border: none;
       background: #4CAF50;
       color: white;
-      border: none;
-      padding: 10px 15px;
-      margin: 5px;
-      border-radius: 5px;
       font-size: 16px;
+      border-radius: 5px;
       cursor: pointer;
     }
-    .buttons button:hover {
+
+    button:hover {
       background: #45a049;
     }
+
     #result {
       font-size: 18px;
-      margin-top: 20px;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    footer {
+      background: #333;
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
+  <header>
+    <h1>Smart Eating Buddy</h1>
+    <p>Your AI-Powered Food & Calorie Guide</p>
+  </header>
 
-<header>
-  Smart Eating Buddy
-</header>
+  <!-- Navigation -->
+  <nav>
+    <ul>
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="howitworks.html">How It Works</a></li>
+    </ul>
+  </nav>
 
-<nav>
-  <ul>
-    <li><a href="index.html" class="active">Home</a></li>
-    <li><a href="about.html">About Us</a></li>
-    <li><a href="howitworks.html">How It Works</a></li>
-  </ul>
-</nav>
-
-<div class="container">
-  <h1>Check Calories with AI</h1>
-  <video id="camera" autoplay playsinline></video>
-  <img id="preview" style="display:none;" />
-
-  <div class="buttons">
-    <button onclick="startCamera()">Open Camera</button>
-    <button onclick="stopCamera()">Stop Camera</button>
-    <button onclick="uploadImage()">Upload Image</button>
-    <button onclick="clearResult()">Clear</button>
+  <div class="container">
+    <h2>Check Calories of Your Food</h2>
+    <video id="webcam" autoplay playsinline></video>
+    <img id="uploaded-image" style="display:none;">
+    <br>
+    <input type="file" id="fileUpload" accept="image/*" style="display:none;">
+    <div>
+      <button onclick="startCamera()">Open Camera</button>
+      <button onclick="stopCamera()">Stop Camera</button>
+      <button onclick="document.getElementById('fileUpload').click()">Upload Image</button>
+      <button onclick="clearResult()">Clear</button>
+    </div>
+    <p id="result">Result will appear here...</p>
   </div>
 
-  <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="showPreview(event)">
+  <footer>
+    <p>© 2025 Smart Eating Buddy | Built by Neelansh & Team</p>
+  </footer>
 
-  <div id="result">Result will appear here...</div>
-</div>
+  <!-- Teachable Machine Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image"></script>
+  <script>
+    const URL = "https://teachablemachine.withgoogle.com/models/YOUR_MODEL_ID/"; // Replace with your model link
+    let model, webcam, isCameraOn = false;
 
-<script>
-  let stream = null;
-
-  async function startCamera() {
-    try {
-      stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      const video = document.getElementById('camera');
-      video.srcObject = stream;
-      video.style.display = 'block';
-      document.getElementById('preview').style.display = 'none';
-    } catch (err) {
-      alert('Camera access denied or not available.');
+    async function loadModel() {
+      model = await tmImage.load(URL + "model.json", URL + "metadata.json");
+      console.log("Model Loaded");
     }
-  }
+    loadModel();
 
-  function stopCamera() {
-    if (stream) {
-      let tracks = stream.getTracks();
+    async function startCamera() {
+      if (isCameraOn) return;
+      webcam = await navigator.mediaDevices.getUserMedia({ video: true });
+      const video = document.getElementById("webcam");
+      video.srcObject = webcam;
+      video.style.display = "block";
+      document.getElementById("uploaded-image").style.display = "none";
+      isCameraOn = true;
+      predictLoop(video);
+    }
+
+    function stopCamera() {
+      if (!isCameraOn) return;
+      const tracks = webcam.getTracks();
       tracks.forEach(track => track.stop());
-      document.getElementById('camera').style.display = 'none';
+      document.getElementById("webcam").style.display = "none";
+      isCameraOn = false;
     }
-  }
 
-  function uploadImage() {
-    document.getElementById('fileInput').click();
-  }
+    document.getElementById("fileUpload").addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const img = document.getElementById("uploaded-image");
+      img.src = URL.createObjectURL(file);
+      img.style.display = "block";
+      document.getElementById("webcam").style.display = "none";
+      stopCamera();
+      predictImage(img);
+    });
 
-  function showPreview(event) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        document.getElementById('preview').src = e.target.result;
-        document.getElementById('preview').style.display = 'block';
-        document.getElementById('camera').style.display = 'none';
+    function clearResult() {
+      document.getElementById("result").innerText = "Result will appear here...";
+      document.getElementById("uploaded-image").style.display = "none";
+      document.getElementById("webcam").style.display = "none";
+      stopCamera();
+    }
+
+    async function predictLoop(video) {
+      while (isCameraOn) {
+        await predictImage(video);
+        await new Promise(r => setTimeout(r, 1000));
+      }
+    }
+
+    async function predictImage(image) {
+      if (!model) return;
+      const prediction = await model.predict(image);
+      let highest = prediction.reduce((a, b) => a.probability > b.probability ? a : b);
+      document.getElementById("result").innerText = `Detected: ${highest.className} | Calories: ${getCalories(highest.className)}`;
+    }
+
+    function getCalories(food) {
+      const data = {
+        "Pizza": "266 kcal",
+        "Burger": "295 kcal",
+        "Samosa": "262 kcal",
+        "Noodles": "138 kcal",
+        "Daal Chawal": "180 kcal"
       };
-      reader.readAsDataURL(file);
+      return data[food] || "N/A";
     }
-  }
-
-  function clearResult() {
-    document.getElementById('result').innerText = 'Result will appear here...';
-    document.getElementById('preview').style.display = 'none';
-    document.getElementById('camera').style.display = 'none';
-  }
-</script>
-
+  </script>
 </body>
 </html>
