@@ -1,141 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smart Eating Buddy</title>
-
+  <link rel="stylesheet" href="style.css">
   <style>
-    :root {
-      --bg1:#041021;
-      --bg2:#072033;
-      --accent1:#34d399;
-      --accent2:#22d3ee;
-      --muted:#98a2b3;
-      --card: rgba(255,255,255,0.04);
-      --glass: blur(8px);
-      --text:#e6eef8;
-      --shadow: 0 12px 30px rgba(0,0,0,.35);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0; font-family:'Poppins',system-ui,Arial; color:var(--text);
-      background:
-        radial-gradient(60% 60% at 20% 10%, rgba(52,211,153,.08), transparent 60%),
-        radial-gradient(60% 60% at 90% 10%, rgba(34,211,238,.05), transparent 60%),
-        linear-gradient(180deg,var(--bg1),var(--bg2));
-      min-height:100vh; display:flex; flex-direction:column; gap:18px; padding:22px;
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8f8f8;
+      color: #333;
     }
 
-    /* Header */
-    .site-header {
-      max-width:1100px; margin:0 auto; width:100%;
-      display:flex; align-items:center; justify-content:space-between; gap:16px;
-    }
-    .brand { display:flex; align-items:center; gap:12px; }
-    .brand .logo {
-      width:56px; height:56px; border-radius:12px; object-fit:cover;
-      background:linear-gradient(135deg,var(--accent1),var(--accent2));
-      box-shadow:0 10px 30px rgba(34,211,238,.12);
-    }
-    .brand h1 { margin:0; font-size:1.1rem; }
-    .tag { margin:2px 0 0; color:var(--muted); font-size:.9rem; }
-
-    /* Nav */
+    /* Navbar */
     nav {
-      max-width:1100px; margin:0 auto; width:100%;
-      background:var(--card); backdrop-filter:var(--glass);
-      border:1px solid rgba(255,255,255,0.06); border-radius:12px; box-shadow:var(--shadow);
-    }
-    nav ul { list-style:none; margin:0; padding:8px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
-    nav a {
-      text-decoration:none; color:var(--text); font-weight:600;
-      padding:10px 14px; border-radius:999px; display:inline-block;
-      background:rgba(255,255,255,0.06); transition:transform .12s ease, background .2s ease;
-    }
-    nav a:hover { transform:translateY(-3px); }
-    nav a.active { background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:#052029; }
-
-    /* Controls */
-    .controls {
-      max-width:1100px; margin:0 auto; width:100%;
-      background:var(--card); border:1px solid rgba(255,255,255,0.06);
-      border-radius:16px; backdrop-filter:var(--glass); box-shadow:var(--shadow);
-      padding:20px; text-align:center;
-    }
-    .controls button {
-      margin:8px; padding:12px 20px; font-size:1rem; font-weight:600;
-      border:none; border-radius:999px; cursor:pointer;
-      background:rgba(255,255,255,0.08); color:var(--text);
-      transition:background .2s ease, transform .12s ease;
-    }
-    .controls button:hover { background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:#052029; transform:translateY(-2px); }
-
-    /* Main grid */
-    .main-grid {
-      display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-      gap:18px; max-width:1100px; margin:0 auto; width:100%;
-    }
-    .card {
-      background:var(--card); border:1px solid rgba(255,255,255,0.06);
-      border-radius:16px; backdrop-filter:var(--glass); box-shadow:var(--shadow);
-      padding:20px;
-    }
-    .viewport {
-      background:rgba(255,255,255,0.03); border:2px dashed rgba(255,255,255,0.1);
-      border-radius:12px; height:240px; display:flex; align-items:center; justify-content:center;
-      overflow:hidden;
-    }
-    .placeholder { color:var(--muted); text-align:center; }
-    #uploadPreview { max-height:100%; }
-    .status { margin-top:12px; font-weight:500; text-align:center; color:var(--muted); }
-
-    /* Predictions & Nutrition */
-    .predictions { font-size:0.95rem; margin-bottom:16px; }
-    .nutrition, .burn {
-      display:grid; grid-template-columns:repeat(2,1fr); gap:8px;
-    }
-    .nut {
-      background:rgba(255,255,255,0.05); border-radius:8px; padding:8px 12px; text-align:center;
+      background: #4CAF50;
+      color: white;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    footer { text-align:center; color:var(--muted); margin-top:auto; }
+    nav .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      display: inline;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    /* Hero section */
+    .hero {
+      text-align: center;
+      padding: 50px 20px;
+      background: #e9f5ee;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .hero button {
+      padding: 12px 20px;
+      font-size: 18px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .hero button:hover {
+      background: #45a049;
+    }
+
+    /* Camera section */
+    .camera-section {
+      text-align: center;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      max-width: 500px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    #camera {
+      width: 100%;
+      max-width: 400px;
+      border: 2px solid #4CAF50;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    #capture {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #capture:hover {
+      background: #45a049;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #4CAF50;
+      color: white;
+      margin-top: 30px;
+    }
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header class="site-header">
-    <div class="brand">
-      <img src="logo.png" alt="Smart Eating Buddy Logo" class="logo">
-      <div>
-        <h1>Smart Eating Buddy</h1>
-        <div class="tag">AI food recognition • Nutrition • Simple workouts</div>
-      </div>
-    </div>
-  </header>
-
   <!-- Navigation -->
   <nav>
+    <div class="logo">Smart Eating Buddy</div>
     <ul>
-      <li><a class="active" href="index.html">Home</a></li>
-      <li><a href="about.html">About Us</a></li>
+      <li><a href="index.html">Home</a></li>
       <li><a href="howitworks.html">How It Works</a></li>
+      <li><a href="about.html">About Us</a></li>
     </ul>
   </nav>
 
-  <!-- Controls -->
-  <section class="controls">
-    <button id="btnStart">📷 Start Webcam</button>
-    <button id="btnStop" disabled>✖ Stop</button>
-    <input id="fileInput" type="file" accept="image/*" hidden>
-    <button id="btnUpload">📁 Upload Image</button>
-    <button id="btnClear">🧹 Clear</button>
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Welcome to Smart Eating Buddy</h1>
+    <p>Track your calories by scanning your food and stay healthy!</p>
+    <button onclick="document.querySelector('.camera-section').scrollIntoView({behavior: 'smooth'});">
+      Start Scanning
+    </button>
   </section>
 
-  <!-- Main Content -->
-  <main class="main-grid">
-    <section class="card">
-      <h2>Live / Preview</h2>
-      <div id="viewport" class="viewport">
-        <div id="placeholder" class="placeholder">Start webcam or upload an image</div>
-        <img id="uploadPreview" alt="preview" class
+  <!-- Camera Section -->
+  <section class="camera-section">
+    <h2>Scan Your Food</h2>
+    <video id="camera" autoplay playsinline></video>
+    <br>
+    <button id="capture">Capture</button>
+    <canvas id="snapshot" style="display:none;"></canvas>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Smart Eating Buddy | All Rights Reserved</p>
+  </footer>
+
+  <!-- Camera Script -->
+  <script>
+    const video = document.getElementById('camera');
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        video.srcObject = stream;
+      })
+      .catch(error => {
+        console.error("Camera error:", error);
+        alert("Unable to access the camera. Please check permissions.");
+      });
+
+    // Capture button
+    const captureBtn = document.getElementById('capture');
+    const canvas = document.getElementById('snapshot');
+
+    captureBtn.addEventListener('click', () => {
+      const context = canvas.getContext('2d');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      alert('Image captured! (Integration with AI coming soon)');
+    });
+  </script>
+</body>
+</html>
+
