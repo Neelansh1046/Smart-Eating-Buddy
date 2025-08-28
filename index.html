@@ -4,187 +4,150 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smart Eating Buddy</title>
-  <link rel="stylesheet" href="style.css">
   <style>
     body {
       font-family: Arial, sans-serif;
+      background: #f8f9fa;
       margin: 0;
       padding: 0;
-      background: #f8f8f8;
-      color: #333;
+      text-align: center;
     }
-
-    /* Navbar */
-    nav {
+    header {
       background: #4CAF50;
       color: white;
       padding: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      font-size: 24px;
     }
-
-    nav .logo {
-      font-size: 22px;
-      font-weight: bold;
+    nav {
+      background: #333;
     }
-
     nav ul {
-      list-style: none;
-      display: flex;
-      gap: 15px;
       margin: 0;
       padding: 0;
+      list-style: none;
+      display: flex;
+      justify-content: center;
     }
-
     nav ul li {
-      display: inline;
+      margin: 0 15px;
     }
-
     nav ul li a {
       color: white;
       text-decoration: none;
-      font-size: 16px;
-      transition: 0.3s;
+      font-size: 18px;
     }
-
     nav ul li a:hover {
       text-decoration: underline;
     }
-
-    /* Hero section */
-    .hero {
-      text-align: center;
-      padding: 50px 20px;
-      background: #e9f5ee;
+    .container {
+      margin-top: 20px;
     }
-
-    .hero h1 {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-    }
-
-    .hero p {
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
-
-    .hero button {
-      padding: 12px 20px;
-      font-size: 18px;
-      background: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .hero button:hover {
-      background: #45a049;
-    }
-
-    /* Camera section */
-    .camera-section {
-      text-align: center;
-      margin: 40px auto;
-      padding: 20px;
-      background: white;
-      max-width: 500px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-
-    #camera {
-      width: 100%;
-      max-width: 400px;
+    video, img {
+      width: 320px;
+      height: 240px;
       border: 2px solid #4CAF50;
       border-radius: 10px;
-      margin-bottom: 15px;
+      margin-top: 10px;
     }
-
-    #capture {
-      padding: 10px 20px;
-      font-size: 16px;
+    .buttons {
+      margin-top: 20px;
+    }
+    .buttons button {
       background: #4CAF50;
       color: white;
       border: none;
+      padding: 10px 15px;
+      margin: 5px;
       border-radius: 5px;
+      font-size: 16px;
       cursor: pointer;
     }
-
-    #capture:hover {
+    .buttons button:hover {
       background: #45a049;
     }
-
-    footer {
-      text-align: center;
-      padding: 15px;
-      background: #4CAF50;
-      color: white;
-      margin-top: 30px;
+    #result {
+      font-size: 18px;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <!-- Navigation -->
-  <nav>
-    <div class="logo">Smart Eating Buddy</div>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="howitworks.html">How It Works</a></li>
-      <li><a href="about.html">About Us</a></li>
-    </ul>
-  </nav>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <h1>Welcome to Smart Eating Buddy</h1>
-    <p>Track your calories by scanning your food and stay healthy!</p>
-    <button onclick="document.querySelector('.camera-section').scrollIntoView({behavior: 'smooth'});">
-      Start Scanning
-    </button>
-  </section>
+<header>
+  Smart Eating Buddy
+</header>
 
-  <!-- Camera Section -->
-  <section class="camera-section">
-    <h2>Scan Your Food</h2>
-    <video id="camera" autoplay playsinline></video>
-    <br>
-    <button id="capture">Capture</button>
-    <canvas id="snapshot" style="display:none;"></canvas>
-  </section>
+<nav>
+  <ul>
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="howitworks.html">How It Works</a></li>
+  </ul>
+</nav>
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2025 Smart Eating Buddy | All Rights Reserved</p>
-  </footer>
+<div class="container">
+  <h1>Check Calories with AI</h1>
+  <video id="camera" autoplay playsinline></video>
+  <img id="preview" style="display:none;" />
 
-  <!-- Camera Script -->
-  <script>
-    const video = document.getElementById('camera');
+  <div class="buttons">
+    <button onclick="startCamera()">Open Camera</button>
+    <button onclick="stopCamera()">Stop Camera</button>
+    <button onclick="uploadImage()">Upload Image</button>
+    <button onclick="clearResult()">Clear</button>
+  </div>
 
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(stream => {
-        video.srcObject = stream;
-      })
-      .catch(error => {
-        console.error("Camera error:", error);
-        alert("Unable to access the camera. Please check permissions.");
-      });
+  <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="showPreview(event)">
 
-    // Capture button
-    const captureBtn = document.getElementById('capture');
-    const canvas = document.getElementById('snapshot');
+  <div id="result">Result will appear here...</div>
+</div>
 
-    captureBtn.addEventListener('click', () => {
-      const context = canvas.getContext('2d');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      alert('Image captured! (Integration with AI coming soon)');
-    });
-  </script>
+<script>
+  let stream = null;
+
+  async function startCamera() {
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const video = document.getElementById('camera');
+      video.srcObject = stream;
+      video.style.display = 'block';
+      document.getElementById('preview').style.display = 'none';
+    } catch (err) {
+      alert('Camera access denied or not available.');
+    }
+  }
+
+  function stopCamera() {
+    if (stream) {
+      let tracks = stream.getTracks();
+      tracks.forEach(track => track.stop());
+      document.getElementById('camera').style.display = 'none';
+    }
+  }
+
+  function uploadImage() {
+    document.getElementById('fileInput').click();
+  }
+
+  function showPreview(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('preview').src = e.target.result;
+        document.getElementById('preview').style.display = 'block';
+        document.getElementById('camera').style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function clearResult() {
+    document.getElementById('result').innerText = 'Result will appear here...';
+    document.getElementById('preview').style.display = 'none';
+    document.getElementById('camera').style.display = 'none';
+  }
+</script>
+
 </body>
 </html>
-
