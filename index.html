@@ -6,11 +6,10 @@
   <title>Smart Eating Buddy</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
-  <!-- Teachable Machine Image library -->
   <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.4-alpha2/dist/teachablemachine-image.min.js"></script>
 </head>
 <body>
-  <!-- Header & Branding -->
+  <!-- Header & Navigation -->
   <header class="header">
     <div class="brand">
       <img src="logo.png" alt="Smart Eating Buddy" class="logo" />
@@ -23,13 +22,12 @@
     </nav>
   </header>
 
-  <!-- Main Experience Grid -->
   <main class="main-grid">
-    <!-- Welcome Card -->
+    <!-- Intro Card -->
     <section class="card intro">
       <h2>Eat Smart. Move Smart.</h2>
-      <p>Welcome! Scan or upload your food to get instant nutrition info and actionable workout tips.<br>
-      <b>Let’s build healthy habits—fast and fun!</b></p>
+      <p>Scan your food or upload an image for instant nutrition details and customized workouts.<br>
+      <b>Fast, fun, and rewarding healthy habits!</b></p>
       <div class="controls">
         <button id="btnStart" class="btn primary">Scan Food</button>
         <button id="btnStop" class="btn ghost" disabled>Stop</button>
@@ -40,38 +38,23 @@
       <div id="status" class="status">Idle. Start webcam or upload an image.</div>
     </section>
 
-    <!-- How it Works -->
+    <!-- How It Works Steps Preview -->
     <section class="card steps">
       <h2>How It Works</h2>
       <div class="steps">
-        <div class="step">
-          <b>Scan</b>
-          <div class="placeholder">📷</div>
-          <p>Use camera or upload food image.</p>
-        </div>
-        <div class="step">
-          <b>Detect</b>
-          <div class="placeholder">🤖</div>
-          <p>AI recognizes your food.</p>
-        </div>
-        <div class="step">
-          <b>Calories</b>
-          <div class="placeholder">🔥</div>
-          <p>See nutrition details instantly.</p>
-        </div>
-        <div class="step">
-          <b>Burn</b>
-          <div class="placeholder">🏃</div>
-          <p>Get workout suggestions.</p>
-        </div>
+        <div class="step"><b>Scan</b><div class="placeholder">📷</div><p>Camera or upload</p></div>
+        <div class="step"><b>Detect</b><div class="placeholder">🤖</div><p>AI Food Recognition</p></div>
+        <div class="step"><b>Calories</b><div class="placeholder">🔥</div><p>Nutrition Stats</p></div>
+        <div class="step"><b>Burn</b><div class="placeholder">🏃</div><p>Workout Tip</p></div>
       </div>
+      <a class="btn primary" href="howitworks.html" style="margin-top:15px;">See Full Guide</a>
     </section>
 
-    <!-- Recognition/Nutrition Results Card -->
+    <!-- Food Details & Prediction Result -->
     <section class="card results">
-      <h2>Your Food Insight</h2>
+      <h2>Food Details</h2>
       <div id="viewport" class="viewport">
-        <div id="placeholder" class="placeholder">No food scanned or uploaded yet.</div>
+        <div id="placeholder" class="placeholder">Ready to scan food</div>
         <img id="uploadPreview" src="#" class="hidden" alt="Food Preview" />
       </div>
       <div id="predictions" class="predictions"></div>
@@ -85,31 +68,36 @@
         <span>To burn it: <b id="wPlan">—</b></span>
       </div>
     </section>
+
+    <!-- About Preview -->
+    <section class="card">
+      <h2>About Smart Eating Buddy</h2>
+      <p>We built Smart Eating Buddy to make food recognition, nutrition insights, and healthy habits fast and fun.<br>
+         Meet the team: Leader & Coder, Data Researcher, Data Evaluator, Graphic Designer, Evaluator.</p>
+      <a class="btn" href="about.html">Read More</a>
+    </section>
   </main>
 
-  <!-- Floating Nutrition Chatbot Widget -->
+  <!-- Chatbot Widget (optional, for extra innovation) -->
   <div id="chatbot-widget" style="
       position:fixed;bottom:24px;right:24px;
       z-index:10;
       background:var(--card);backdrop-filter:var(--glass);
-      border-radius:18px;
-      padding:18px;
-      max-width:340px;box-shadow:0 2px 18px rgba(0,0,0,.12);
-    ">
+      border-radius:18px;padding:18px;max-width:340px;
+      box-shadow:0 2px 18px rgba(0,0,0,.12);">
     <b style="color:var(--accent1);font-size:1.2em;">🥑 Nutrition Chatbot</b>
-    <div id="chatbot-messages" style="margin:10px 0;min-height:90px;color:#e6eef8;"></div>
+    <div id="chatbot-messages" style="margin:10px 0;min-height:80px;color:#e6eef8;"></div>
     <input id="chatbot-input" type="text" placeholder="Ask about food or diet..." style="width:72%;padding:8px;border-radius:12px;border:1px solid #34d399;margin-right:5px;" />
     <button id="chatbot-send" class="btn primary" style="padding:9px 14px;">Send</button>
   </div>
 
-  <!-- Connect model and UI logic -->
+  <!-- Model UI Logic -->
   <script src="script.js"></script>
   <script>
-    // Nutrition Chatbot logic (mock AI)
+    // Chatbot (demo logic; can expand using nutrition data and tips)
     const chatbotMessages = document.getElementById('chatbot-messages');
     const chatbotInput = document.getElementById('chatbot-input');
     const chatbotSend = document.getElementById('chatbot-send');
-
     function botChatReply(text) {
       chatbotMessages.innerHTML += `<div style="margin:5px 0;color:#34d399;"><b>SEBuddy:</b> ${text}</div>`;
     }
@@ -118,11 +106,9 @@
       if (!msg) return;
       chatbotMessages.innerHTML += `<div style="margin:5px 0;text-align:right;color:#60a5fa;"><b>You:</b> ${msg}</div>`;
       chatbotInput.value = "";
-
-      // Basic nutrition Q&A responses
       let response = "Sorry, I can answer nutrition and fitness questions only!";
       if (/apple/i.test(msg)) response = "Apples are great! Low in calories and high in fiber.";
-      else if (/pizza/i.test(msg)) response = "Pizza is tasty but calorie-dense. Try whole grain base or more veggies for a healthier version!";
+      else if (/pizza/i.test(msg)) response = "Pizza is tasty but calorie-dense. Try more veggies and whole grain base for a healthier version!";
       else if (/protein/i.test(msg)) response = "Protein builds muscles and keeps you full. Examples: lentils, eggs, chicken, tofu.";
       else if (/breakfast/i.test(msg)) response = "Healthy breakfasts: Oats, eggs, fruit, or yogurt.";
       else if (/plan/i.test(msg) || /diet/i.test(msg)) response = "Want a meal plan? Include proteins, veggies, healthy carbs, and stay hydrated!";
@@ -130,8 +116,6 @@
       botChatReply(response);
     };
     chatbotInput.addEventListener('keypress', e => { if (e.key === "Enter") chatbotSend.click(); });
-
-    // Initial chatbot greeting
     botChatReply("👋 Ask me about food, nutrition, or instant tips!");
   </script>
 </body>
