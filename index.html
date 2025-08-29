@@ -1,190 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Smart Eating Buddy</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.7.4"></script>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Teachable Machine Image library -->
   <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.4-alpha2/dist/teachablemachine-image.min.js"></script>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #f7f9fc;
-      color: #333;
-      text-align: center;
-    }
-    header {
-      background: #2a9d8f;
-      padding: 15px 0;
-      color: white;
-      font-size: 24px;
-      font-weight: bold;
-    }
-    nav {
-      background: #264653;
-      padding: 10px;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 15px;
-      font-size: 18px;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    .container {
-      max-width: 700px;
-      margin: 30px auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    #webcam-container video, #uploaded-image {
-      width: 100%;
-      max-height: 300px;
-      border-radius: 10px;
-      margin-bottom: 10px;
-    }
-    .btn-group {
-      margin-top: 15px;
-    }
-    button {
-      background: #2a9d8f;
-      border: none;
-      color: white;
-      padding: 12px 18px;
-      margin: 8px;
-      font-size: 16px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #21867a;
-    }
-    .prediction, .nutrition, .workout {
-      margin-top: 15px;
-      font-size: 18px;
-      padding: 12px;
-      border-radius: 8px;
-      background: #eaf4f4;
-    }
-  </style>
 </head>
 <body>
-  <header>
-    Smart Eating Buddy
-  </header>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="how-it-works.html">How It Works</a>
-    <a href="about.html">About Us</a>
-  </nav>
-
-  <div class="container">
-    <h2>Identify Your Food & Get Nutrition Info</h2>
-    <div id="webcam-container"></div>
-    <img id="uploaded-image" style="display:none;" />
-    <div class="btn-group">
-      <button onclick="startCamera()">Open Camera</button>
-      <button onclick="stopCamera()">Stop Camera</button>
-      <input type="file" accept="image/*" id="file-upload" style="display:none;" onchange="uploadImage(event)">
-      <button onclick="document.getElementById('file-upload').click()">Upload Image</button>
-      <button onclick="clearImage()">Clear</button>
+  <!-- Header & Branding -->
+  <header class="header">
+    <div class="brand">
+      <img src="logo.png" alt="Smart Eating Buddy" class="logo" />
+      <h1>Smart Eating Buddy</h1>
     </div>
-    <div class="prediction" id="prediction">Prediction: -</div>
-    <div class="nutrition" id="nutrition">Nutrition Info: -</div>
-    <div class="workout" id="workout">Workout Suggestion: -</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="howitworks.html">How it Works</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <!-- Main Experience Grid -->
+  <main class="main-grid">
+    <!-- Welcome Card -->
+    <section class="card intro">
+      <h2>Eat Smart. Move Smart.</h2>
+      <p>Welcome! Scan or upload your food to get instant nutrition info and actionable workout tips.<br>
+      <b>Let’s build healthy habits—fast and fun!</b></p>
+      <div class="controls">
+        <button id="btnStart" class="btn primary">Scan Food</button>
+        <button id="btnStop" class="btn ghost" disabled>Stop</button>
+        <button id="btnUpload" class="btn">Upload Image</button>
+        <button id="btnClear" class="btn ghost">Clear</button>
+        <input id="fileInput" type="file" accept="image/*" style="display:none" />
+      </div>
+      <div id="status" class="status">Idle. Start webcam or upload an image.</div>
+    </section>
+
+    <!-- How it Works -->
+    <section class="card steps">
+      <h2>How It Works</h2>
+      <div class="steps">
+        <div class="step">
+          <b>Scan</b>
+          <div class="placeholder">📷</div>
+          <p>Use camera or upload food image.</p>
+        </div>
+        <div class="step">
+          <b>Detect</b>
+          <div class="placeholder">🤖</div>
+          <p>AI recognizes your food.</p>
+        </div>
+        <div class="step">
+          <b>Calories</b>
+          <div class="placeholder">🔥</div>
+          <p>See nutrition details instantly.</p>
+        </div>
+        <div class="step">
+          <b>Burn</b>
+          <div class="placeholder">🏃</div>
+          <p>Get workout suggestions.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recognition/Nutrition Results Card -->
+    <section class="card results">
+      <h2>Your Food Insight</h2>
+      <div id="viewport" class="viewport">
+        <div id="placeholder" class="placeholder">No food scanned or uploaded yet.</div>
+        <img id="uploadPreview" src="#" class="hidden" alt="Food Preview" />
+      </div>
+      <div id="predictions" class="predictions"></div>
+      <div class="nutrition">
+        <div class="nut"><small>Calories</small> <b id="nCal">—</b></div>
+        <div class="nut"><small>Carbs</small> <b id="nCarbs">—</b></div>
+        <div class="nut"><small>Protein</small> <b id="nProt">—</b></div>
+        <div class="nut"><small>Fat</small> <b id="nFat">—</b></div>
+      </div>
+      <div class="burn">
+        <span>To burn it: <b id="wPlan">—</b></span>
+      </div>
+    </section>
+  </main>
+
+  <!-- Floating Nutrition Chatbot Widget -->
+  <div id="chatbot-widget" style="
+      position:fixed;bottom:24px;right:24px;
+      z-index:10;
+      background:var(--card);backdrop-filter:var(--glass);
+      border-radius:18px;
+      padding:18px;
+      max-width:340px;box-shadow:0 2px 18px rgba(0,0,0,.12);
+    ">
+    <b style="color:var(--accent1);font-size:1.2em;">🥑 Nutrition Chatbot</b>
+    <div id="chatbot-messages" style="margin:10px 0;min-height:90px;color:#e6eef8;"></div>
+    <input id="chatbot-input" type="text" placeholder="Ask about food or diet..." style="width:72%;padding:8px;border-radius:12px;border:1px solid #34d399;margin-right:5px;" />
+    <button id="chatbot-send" class="btn primary" style="padding:9px 14px;">Send</button>
   </div>
 
+  <!-- Connect model and UI logic -->
+  <script src="script.js"></script>
   <script>
-    const URL = "model/"; // Replace with your model folder path
-    let model, webcam, maxPredictions;
-    const nutritionData = {
-      PIZZA: { calories: 285, carbs: 36, protein: 12, fat: 10 },
-      BURGER: { calories: 295, carbs: 28, protein: 17, fat: 14 },
-      NOODLES: { calories: 138, carbs: 25, protein: 5, fat: 2 },
-      SAMOSA: { calories: 132, carbs: 15, protein: 3, fat: 8 },
-      APPLE: { calories: 52, carbs: 14, protein: 0.3, fat: 0.2 }
+    // Nutrition Chatbot logic (mock AI)
+    const chatbotMessages = document.getElementById('chatbot-messages');
+    const chatbotInput = document.getElementById('chatbot-input');
+    const chatbotSend = document.getElementById('chatbot-send');
+
+    function botChatReply(text) {
+      chatbotMessages.innerHTML += `<div style="margin:5px 0;color:#34d399;"><b>SEBuddy:</b> ${text}</div>`;
+    }
+    chatbotSend.onclick = () => {
+      const msg = chatbotInput.value.trim();
+      if (!msg) return;
+      chatbotMessages.innerHTML += `<div style="margin:5px 0;text-align:right;color:#60a5fa;"><b>You:</b> ${msg}</div>`;
+      chatbotInput.value = "";
+
+      // Basic nutrition Q&A responses
+      let response = "Sorry, I can answer nutrition and fitness questions only!";
+      if (/apple/i.test(msg)) response = "Apples are great! Low in calories and high in fiber.";
+      else if (/pizza/i.test(msg)) response = "Pizza is tasty but calorie-dense. Try whole grain base or more veggies for a healthier version!";
+      else if (/protein/i.test(msg)) response = "Protein builds muscles and keeps you full. Examples: lentils, eggs, chicken, tofu.";
+      else if (/breakfast/i.test(msg)) response = "Healthy breakfasts: Oats, eggs, fruit, or yogurt.";
+      else if (/plan/i.test(msg) || /diet/i.test(msg)) response = "Want a meal plan? Include proteins, veggies, healthy carbs, and stay hydrated!";
+      else if (/burger/i.test(msg)) response = "Burgers can be heavy on fat and calories. Add greens and choose grilled or lean meat for balance!";
+      botChatReply(response);
     };
+    chatbotInput.addEventListener('keypress', e => { if (e.key === "Enter") chatbotSend.click(); });
 
-    async function loadModel() {
-      const modelURL = URL + "model.json";
-      const metadataURL = URL + "metadata.json";
-      model = await tmImage.load(modelURL, metadataURL);
-      maxPredictions = model.getTotalClasses();
-    }
-    loadModel();
-
-    async function startCamera() {
-      if (!webcam) {
-        webcam = new tmImage.Webcam(300, 300, true);
-        await webcam.setup();
-        await webcam.play();
-        document.getElementById("webcam-container").appendChild(webcam.canvas);
-        predictLoop();
-      }
-    }
-
-    function stopCamera() {
-      if (webcam) {
-        webcam.stop();
-        document.getElementById("webcam-container").innerHTML = "";
-        webcam = null;
-      }
-    }
-
-    async function predictLoop() {
-      if (webcam) {
-        await webcam.update();
-        await predict(webcam.canvas);
-        requestAnimationFrame(predictLoop);
-      }
-    }
-
-    async function predict(image) {
-      const prediction = await model.predict(image);
-      prediction.sort((a, b) => b.probability - a.probability);
-      const best = prediction[0].className;
-      document.getElementById("prediction").innerHTML = `Prediction: ${best}`;
-      const nutrition = nutritionData[best];
-      if (nutrition) {
-        document.getElementById("nutrition").innerHTML =
-          `Calories: ${nutrition.calories} kcal | Carbs: ${nutrition.carbs}g | Protein: ${nutrition.protein}g | Fat: ${nutrition.fat}g`;
-        suggestWorkout(nutrition.calories);
-      }
-    }
-
-    function suggestWorkout(calories) {
-      let suggestion = "";
-      if (calories > 250) suggestion = "Run for 30 mins or do 20 push-ups.";
-      else if (calories > 150) suggestion = "Brisk walk for 20 mins.";
-      else suggestion = "Light stretching for 10 mins.";
-      document.getElementById("workout").innerHTML = `Workout Suggestion: ${suggestion}`;
-    }
-
-    function uploadImage(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          document.getElementById("uploaded-image").src = e.target.result;
-          document.getElementById("uploaded-image").style.display = "block";
-          predict(document.getElementById("uploaded-image"));
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-
-    function clearImage() {
-      document.getElementById("uploaded-image").style.display = "none";
-      document.getElementById("prediction").innerHTML = "Prediction: -";
-      document.getElementById("nutrition").innerHTML = "Nutrition Info: -";
-      document.getElementById("workout").innerHTML = "Workout Suggestion: -";
-    }
+    // Initial chatbot greeting
+    botChatReply("👋 Ask me about food, nutrition, or instant tips!");
   </script>
 </body>
 </html>
+
