@@ -3,315 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Eating Buddy - Home</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" type="image/png" href="logo.png" />
-  <meta name="theme-color" content="#ff6f61">
+  <title>Smart Eating Buddy</title>
 
-  <!-- TensorFlow.js -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="logo.png">
+
+  <!-- TensorFlow -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.7.4/dist/tf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
-
-<style>
-  :root {
-    --bg1: #041021;
-    --bg2: #072033;
-    --accent1: #ff6f61;
-    --accent2: #34d399;
-    --muted: #b0b4be;
-    --card: rgba(255,255,255,0.05);
-    --glass: blur(10px);
-    --text: #e6eef8;
-    --text2: #f9fafb;
-  }
-
-  html, body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', system-ui, Arial, sans-serif;
-    background:
-      radial-gradient(60% 80% at 20% 0%, rgba(255,111,97,.11), transparent 80%),
-      radial-gradient(55% 40% at 93% 0%, rgba(52,211,153,.08), transparent 80%),
-      linear-gradient(180deg,var(--bg1),var(--bg2));
-    color: var(--text);
-    min-height: 100vh;
-  }
-
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 32px;
-    background: linear-gradient(120deg,var(--accent1),var(--accent2) 80%);
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  }
-  .logo {
-    width: 52px;
-    height: 52px;
-    border-radius: 12px;
-    background: #fff;
-    object-fit: cover;
-  }
-  nav ul {
-    list-style: none;
-    display: flex;
-    gap: 32px;
-    margin: 0;
-    padding: 0;
-  }
-  nav a {
-    text-decoration: none;
-    font-weight: 600;
-    color: #e6eef8;
-    opacity: .89;
-    font-size: 1.05rem;
-    letter-spacing: .2px;
-    transition: opacity .13s;
-  }
-  nav a.active, nav a:hover {
-    opacity: 1;
-    text-decoration: underline;
-    color: #fff;
-  }
-
-  .content {
-    text-align: center;
-    padding: 30px 0 10px 0;
-  }
-  h1 {
-    color: #e6eef8;
-    font-size: 2.1rem;
-    margin-bottom: .7em;
-    letter-spacing: .7px;
-    font-weight: 700;
-  }
-  .controls {
-    margin-top: 18px;
-  }
-  .controls button {
-    margin: 6px;
-    padding: 12px 22px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 999px;
-    cursor: pointer;
-    font-weight: 600;
-    background: var(--card);
-    color: var(--text);
-    box-shadow: 0 2px 10px rgba(34,211,238,0.04);
-    transition: background .12s, color .12s, box-shadow .18s;
-  }
-  .btn.primary {
-    background: linear-gradient(90deg,var(--accent1),var(--accent2));
-    color: #fafafa;
-    box-shadow: 0 2px 18px rgba(255,111,97,.12);
-  }
-  .btn.primary:hover {
-    filter: brightness(1.13);
-    box-shadow: 0 4px 20px rgba(255,111,97,.20);
-  }
-  .btn.ghost {
-    background: transparent;
-    border: 1.35px solid rgba(255,255,255,0.08);
-    color: var(--accent1);
-  }
-  .btn.ghost:hover {
-    background: rgba(255,255,255,0.10);
-    color: #fff;
-  }
-  .btn:focus {
-    outline: 2px solid var(--accent2);
-  }
-
-  .main-grid {
-    display: grid;
-    gap: 22px;
-    max-width: 1080px;
-    margin: 30px auto 0 auto;
-    padding: 0 16px;
-    grid-template-columns: repeat(auto-fit,minmax(332px,1fr));
-  }
-  .card {
-    background: var(--card);
-    border-radius: 16px;
-    box-shadow: 0 10px 38px rgba(34,211,238,0.09), 0 2px 10px rgba(34,67,111,0.08);
-    border: 1.2px solid rgba(255,255,255,0.07);
-    padding: 25px 18px;
-    text-align: center;
-    backdrop-filter: var(--glass);
-    color: var(--text2);
-  }
-  .viewport {
-    background: rgba(255,255,255,0.03);
-    border: 2px dashed #89a6b1;
-    border-radius: 12px;
-    height: 220px;
-    min-width: 220px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    margin-bottom: 16px;
-  }
-  .placeholder {
-    color: var(--muted);
-    font-size: 1.03rem;
-  }
-  #uploadPreview {
-    max-height: 100%;
-    max-width: 100%;
-    border-radius: 10px;
-    object-fit: contain;
-    background: #222;
-  }
-  .status {
-    margin-top: 8px;
-    font-weight: 500;
-    color: #b3b3d8;
-    word-break: break-all;
-  }
-  .predictions {
-    margin: 16px 0 4px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
-  }
-  .row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-  .label {
-    width: 110px;
-    color: #fbc8b8;
-    font-weight: 600;
-    text-align: left;
-  }
-  .bar {
-    flex: 1; height: 11px; border-radius: 900px;
-    background: rgba(255,255,255,0.10); overflow: hidden;
-  }
-  .fill {
-    height: 100%;
-    width: 0;
-    background: linear-gradient(90deg,var(--accent1),var(--accent2));
-    transition: width .28s;
-  }
-  .nutrition, .burn {
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    gap: 8px;
-    margin-top: 10px;
-  }
-  .nut {
-    background: rgba(255,255,255,0.06);
-    border-radius: 10px;
-    padding: 10px 10px 8px 10px;
-    text-align: center;
-    border: 1px solid rgba(255,255,255,0.08);
-    color: #fbfaf7;
-  }
-  .nut small { display: block; color: var(--muted); font-size: .85rem;}
-  .nut b { display: block; margin-top: 3px; font-size: 1.06rem; }
-
-  .burn {
-    margin-top: 8px;
-  }
-  /* Card Headings */
-  h1, h2, h3 {
-    color: #fbe9e8;
-    text-shadow: 0 1px 2px #03020322;
-  }
-  .card h2, .card h3 { color: #fbe9e8; }
-
-  /* Footer and Responsive */
-  footer {
-    text-align: center;
-    padding: 20px;
-    background: transparent;
-    font-size: 0.98rem;
-    color: var(--muted);
-    margin: 60px auto 0 auto;
-    border: none;
-  }
-  @media (max-width: 600px) {
-    .main-grid { grid-template-columns: 1fr;}
-    .card { padding: 13px 5px; }
-    .content { padding: 24px 8px; }
-    nav ul { gap: 15px;}
-  }
-</style>
-
 </head>
+
 <body>
-  <!-- Header -->
-  <header>
-    <img src="logo.png" alt="Smart Eating Buddy Logo" class="logo">
-    <nav>
-      <ul>
-        <li><a href="index.html" class="active">Home</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="howitworks.html">How It Works</a></li>
-      </ul>
-    </nav>
-  </header>
 
-  <!-- Main Content -->
-  <section class="content">
-    <h1>Welcome to Smart Eating Buddy</h1>
-    <p>Scan your food, check calories, and get workout tips instantly!</p>
+<!-- HEADER -->
+<header class="header">
+  <div class="brand">
+    <div class="logo">SEB</div>
+    <div>
+      <h1>Smart Eating Buddy</h1>
+      <p class="tag">Scan food • Calories • Workout</p>
+    </div>
+  </div>
 
-    <!-- Controls -->
-    <div class="controls">
-      <button id="btnStart" class="btn primary">📷 Start Webcam</button>
-      <button id="btnStop" class="btn ghost" disabled>✖ Stop</button>
-      <input id="fileInput" type="file" accept="image/*" hidden>
-      <button id="btnUpload" class="btn">📁 Upload Image</button>
-      <button id="btnClear" class="btn ghost">🧹 Clear</button>
+  <div class="controls">
+    <button id="btnStart" class="btn primary">📷 Start</button>
+    <button id="btnStop" class="btn ghost" disabled>✖ Stop</button>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="main-grid">
+
+  <!-- CAMERA -->
+  <section class="card">
+    <h2>Live Camera</h2>
+    <div id="viewport" class="viewport">
+      <div id="placeholder" class="placeholder">Click Start to open camera</div>
+    </div>
+    <div id="status" class="status">Idle</div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="card">
+    <h2>Prediction</h2>
+    <div id="predictions" class="predictions"></div>
+
+    <h2>Nutrition</h2>
+    <div class="nutrition">
+      <div class="nut"><small>Calories</small><b id="nCal">—</b></div>
+      <div class="nut"><small>Carbs</small><b id="nCarbs">—</b></div>
+      <div class="nut"><small>Protein</small><b id="nProt">—</b></div>
+      <div class="nut"><small>Fat</small><b id="nFat">—</b></div>
+    </div>
+
+    <h2>Workout</h2>
+    <div class="burn">
+      <div class="nut"><small>Suggested</small><b id="wPlan">—</b></div>
     </div>
   </section>
 
-  <!-- Prediction & Nutrition -->
-  <main class="main-grid">
-    <section class="card">
-      <h2>Live / Preview</h2>
-      <div id="viewport" class="viewport">
-        <div id="placeholder" class="placeholder">Start webcam or upload an image</div>
-        <img id="uploadPreview" alt="preview" class="hidden" />
-      </div>
-      <div id="status" class="status">Idle</div>
-    </section>
+</main>
 
-    <section class="card">
-      <h2>Predictions</h2>
-      <div id="predictions" class="predictions"></div>
+<footer>
+  © 2025 Smart Eating Buddy | AI Capstone Project
+</footer>
 
-      <h3>Nutrition</h3>
-      <div class="nutrition" id="nutrition">
-        <div class="nut"><small>Calories</small><b id="nCal">—</b></div>
-        <div class="nut"><small>Carbs</small><b id="nCarbs">—</b></div>
-        <div class="nut"><small>Protein</small><b id="nProt">—</b></div>
-        <div class="nut"><small>Fat</small><b id="nFat">—</b></div>
-      </div>
-
-      <h3 style="margin-top:12px">Suggested Burn</h3>
-      <div class="burn"><div class="nut"><small>Workout</small><b id="wPlan">—</b></div></div>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer>
-    © 2025 Smart Eating Buddy | Built for healthier choices
-  </footer>
-
-  <script src="script.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(()=>console.log('SW registered'))
-        .catch(()=>console.log('SW failed'));
-    }
-  </script>
+<script src="script.js"></script>
 </body>
 </html>
