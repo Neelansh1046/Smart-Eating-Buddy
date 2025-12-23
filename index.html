@@ -15,7 +15,7 @@
 
 <body>
 
-<!-- HEADER -->
+<!-- HEADER (SAME AS ABOUT / HOW IT WORKS) -->
 <header class="header">
   <div class="brand">
     <img src="logo.png" class="logo-img" alt="Logo">
@@ -40,16 +40,21 @@
 <!-- MAIN -->
 <main class="main-grid">
 
-  <!-- CAMERA -->
+  <!-- CAMERA CARD -->
   <section class="card">
     <h2>Live Camera</h2>
+
     <div id="viewport" class="viewport">
-      <div id="placeholder" class="placeholder">Click Start to open camera</div>
+      <!-- webcam canvas injected here -->
+      <div id="placeholder" class="placeholder">
+        Click “Start” to open camera
+      </div>
     </div>
+
     <div id="status" class="status">Idle</div>
   </section>
 
-  <!-- RESULTS -->
+  <!-- RESULT CARD -->
   <section class="card">
     <h2>Prediction</h2>
     <div id="predictions" class="predictions"></div>
@@ -77,4 +82,3 @@
 <script src="script.js"></script>
 </body>
 </html>
-
